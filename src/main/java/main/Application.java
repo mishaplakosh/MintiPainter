@@ -19,5 +19,6 @@ public class Application {
 //        MintiAlgorithm mintiAlgorithm = new MintiAlgorithm();
 //        mintiAlgorithm.getMintiAlgorithm(graph.getRoots());
 //        DPQ.runMinti((ArrayList<Root>) graph.getRoots());
+        //eefq
     }
 }

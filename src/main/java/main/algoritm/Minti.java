@@ -1,6 +1,7 @@
 package main.algoritm;
 
 import main.constants.Constants;
+import main.dto.MintyResult;
 import main.dto.Root;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -44,10 +45,21 @@ public class Minti {
         return shortestPathString;
     }
 
+    public static List<MintyResult> getMintyShortestPath(List<Root> roots){
+        SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph = fromRootsToGraph(roots);
+        // Застосуємо алгоритм Мінті та виведемо результат
+        DijkstraShortestPath<Integer, DefaultWeightedEdge> shortestPath = new DijkstraShortestPath<>(graph);
+        ArrayList<MintyResult> mintyResults = new ArrayList<>();
+        for (Integer v : graph.vertexSet()) {
+            mintyResults.add(new MintyResult(v, shortestPath.getPath(1, v)));
+        }
+        return mintyResults;
+    }
+
     public static SimpleWeightedGraph<Integer, DefaultWeightedEdge> fromRootsToGraph(List<Root> roots){
         SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         // Додамо вершини
-        for (int i = 1; i <= Constants.MAX_NODE_NUMBER; i++) {
+        for (int i = 1; i <= Constants.NODE_NUMBER; i++) {
             graph.addVertex(i);
         }
         for(Root root : roots){

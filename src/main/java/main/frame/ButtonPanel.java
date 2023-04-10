@@ -1,6 +1,11 @@
 package main.frame;
 
+import main.constants.Constants;
+import main.dto.Root;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,12 +21,22 @@ public class ButtonPanel extends JPanel {
     GraphTableModel tableModel;
     JTable table;
 
+    JButton addColumn;
+    JButton removeColumn;
+
+    JButton addNode;
+
+    JButton removeNode;
+
     JPanel textPanel;
+
+    JPanel buttonPanel;
 
     public ButtonPanel(Frame frame){
         this.frame = frame;
         textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         createButtonPanel();
         tableModel = new GraphTableModel(frame.graph.getRoots(), frame);
         table = new JTable(tableModel);
@@ -29,8 +44,48 @@ public class ButtonPanel extends JPanel {
         add(textPanel);
     }
     public void createButtonPanel(){
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setBorder(new EmptyBorder(10,10,10,10));
         calculateBtn = new JButton("Отримати найкоротший шлях");
-        add(calculateBtn);
+        buttonPanel.add(calculateBtn);
+        addColumn = new JButton("Додати дугу");
+        buttonPanel.add(addColumn);
+        addColumn.addActionListener(evt -> {
+            tableModel.addRootToList(new Root(0,0,0));
+            tableModel.fireTableStructureChanged();
+            tableModel.fireTableDataChanged();
+            table.revalidate();
+            table.repaint();
+            frame.revalidate();
+            frame.repaint();
+        });
+        removeColumn = new JButton("Видалити дугу");
+        buttonPanel.add(removeColumn);
+        removeColumn.addActionListener(evt -> {
+            tableModel.removeRootFromList(table.getSelectedColumn());
+            tableModel.fireTableStructureChanged();
+            tableModel.fireTableDataChanged();
+            table.revalidate();
+            table.repaint();
+            frame.revalidate();
+            frame.repaint();
+        });
+
+        addNode = new JButton("Додати вершину");
+        addNode.addActionListener(evt -> {
+            Constants.NODE_NUMBER ++;
+            frame.revalidate();
+            frame.repaint();
+        });
+        buttonPanel.add(addNode);
+        removeNode = new JButton("Видалити вершину");
+        removeNode.addActionListener(evt -> {
+            Constants.NODE_NUMBER --;
+            frame.revalidate();
+            frame.repaint();
+        });
+        buttonPanel.add(removeNode);
         aboutProgramBtn = new JButton("Про програму");
         aboutProgramBtn.addActionListener(evt -> {
             JOptionPane.showMessageDialog(frame,
@@ -45,7 +100,7 @@ public class ButtonPanel extends JPanel {
                             "обчислення найкоротшого шляху від початку до кожної вершини, якої можна досягнути.\n\n" +
                             "Для придбання програми звертайтеся по номеру +380665430276");
         });
-        add(aboutProgramBtn);
+        buttonPanel.add(aboutProgramBtn);
         instructionBtn = new JButton("Інструкція");
         instructionBtn.addActionListener(evt -> {
             JOptionPane.showMessageDialog(frame,"Програма містить такі функції:\n" +
@@ -74,13 +129,15 @@ public class ButtonPanel extends JPanel {
                     "Отримаєм таблицю, в яку при потребі зможемо вносити зміни а також малюнок графа.\n" +
                     "При натисканні кнопки 'Отримати найкоротший шлях' \nотримаєм інформацію про найкоротший шлях для кожної з вершин.");
         });
-        add(instructionBtn);
-        calculateBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonPanel.add(instructionBtn);
+        calculateBtn.addActionListener(e -> {
+            if(tableModel.containsSameStartTargetNode()){
+                JOptionPane.showMessageDialog(frame, "Недопустиме значення!");
+            }else{
                 frame.calculateButtonPressed();
             }
         });
+        add(buttonPanel);
     }
 
     public void createShortestPassText(List<String> shortestPath){

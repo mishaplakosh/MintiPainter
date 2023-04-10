@@ -4,7 +4,6 @@ import main.constants.Constants;
 import main.dto.Root;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class DPQ {
     private int dist[];
@@ -119,7 +118,7 @@ public class DPQ {
 
 
         // Calculate the single source shortest path
-        DPQ dpq = new DPQ(Constants.MAX_NODE_NUMBER);
+        DPQ dpq = new DPQ(Constants.NODE_NUMBER);
         dpq.dijkstra(adj, source);
 
 
@@ -136,7 +135,7 @@ public class DPQ {
         // connected edges
         List<List<Node>> adj = new ArrayList<>();
         // Initialize list for every node
-        for (int i = 0; i < Constants.MAX_NODE_NUMBER; i++) {
+        for (int i = 0; i < Constants.NODE_NUMBER; i++) {
             List<Node> item = new ArrayList<Node>();
             adj.add(item);
         }

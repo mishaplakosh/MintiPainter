@@ -52,7 +52,7 @@ public class GraphTableModel extends AbstractTableModel {
                 if(toChangeVal.length() <= 3){
                     int startNode = Integer.parseInt(toChangeVal.substring(0,1));
                     int endNode = Integer.parseInt(toChangeVal.substring(2));
-                    if(startNode > 0 || endNode < Constants.MAX_NODE_NUMBER - 1){
+                    if(startNode > 0 || endNode < Constants.NODE_NUMBER - 1){
                         rootsList.get(columnIndex).setStartNode(startNode);
                         rootsList.get(columnIndex).setTargetNode(endNode);
                     }else{
@@ -82,5 +82,22 @@ public class GraphTableModel extends AbstractTableModel {
             JOptionPane.showMessageDialog(frame, "Недопустиме значення!");
         }
 
+    }
+
+    public void addRootToList(Root root){
+        rootsList.add(root);
+    }
+
+    public void removeRootFromList(int column){
+        rootsList.remove(column);
+    }
+
+    public boolean containsSameStartTargetNode(){
+        for(Root root : rootsList){
+            if(root.getStartNode() == root.getTargetNode()){
+                return true;
+            }
+        }
+        return false;
     }
 }

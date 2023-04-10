@@ -1,13 +1,12 @@
 package main.frame;
 
-import lombok.NoArgsConstructor;
-import main.Application;
 import main.algoritm.Minti;
+import main.algoritm.MintiAlgorithm;
 import main.constants.Constants;
 import main.dto.Graph;
 
+import main.dto.MintyResult;
 import main.dto.Root;
-import main.frame.FramePainter;
 import main.util.FileReader;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -57,7 +56,7 @@ public class Frame extends JFrame {
 
         nodes = new ArrayList<Rectangle>();
 
-        IntStream.range(0, Constants.MAX_NODE_NUMBER).forEach(index -> {
+        IntStream.range(0, Constants.NODE_NUMBER).forEach(index -> {
 
             var intersects = false;
             Rectangle node;
@@ -84,6 +83,7 @@ public class Frame extends JFrame {
         });
 
         roots.forEach(root -> FramePainter.drawArrow(g, nodes.get(root.getStartNode() - 1), nodes.get(root.getTargetNode() - 1)));
+        ArrayList<MintyResult> mintyShortestPath = (ArrayList) Minti.getMintyShortestPath(roots);
     }
 
     private Color getRandomColor() {

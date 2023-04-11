@@ -81,9 +81,8 @@ public class Frame extends JFrame {
 
             FramePainter.drawNode(g, node, index);
         });
-
-        roots.forEach(root -> FramePainter.drawArrow(g, nodes.get(root.getStartNode() - 1), nodes.get(root.getTargetNode() - 1)));
         ArrayList<MintyResult> mintyShortestPath = (ArrayList) Minti.getMintyShortestPath(roots);
+        roots.forEach(root -> FramePainter.drawArrow(g, nodes.get(root.getStartNode() - 1), nodes.get(root.getTargetNode() - 1)));
     }
 
     private Color getRandomColor() {

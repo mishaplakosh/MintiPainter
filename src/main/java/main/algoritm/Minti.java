@@ -39,8 +39,10 @@ public class Minti {
         DijkstraShortestPath<Integer, DefaultWeightedEdge> shortestPath = new DijkstraShortestPath<>(graph);
         shortestPathString = new ArrayList<>();
         for (Integer v : graph.vertexSet()) {
-            shortestPathString.add("Найкоротший шлях від 1 до " + v + ": " + shortestPath.getPath(1, v) + " з довжиною " + shortestPath.getPathWeight(1, v));
-            System.out.println("Shortest path from 1 to " + v + " is " + shortestPath.getPath(1, v) + " with weight " + shortestPath.getPathWeight(1, v));
+            if(!(shortestPath.getPathWeight(1,v) == Double.POSITIVE_INFINITY)){
+                shortestPathString.add("Найкоротший шлях від 1 до " + v + ": " + shortestPath.getPath(1, v) + " з довжиною " + shortestPath.getPathWeight(1, v));
+                System.out.println("Shortest path from 1 to " + v + " is " + shortestPath.getPath(1, v) + " with weight " + shortestPath.getPathWeight(1, v));
+            }
         }
         return shortestPathString;
     }
@@ -59,7 +61,7 @@ public class Minti {
     public static SimpleWeightedGraph<Integer, DefaultWeightedEdge> fromRootsToGraph(List<Root> roots){
         SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         // Додамо вершини
-        for (int i = 1; i <= Constants.NODE_NUMBER; i++) {
+        for (int i = 1; i <= roots.size(); i++) {
             graph.addVertex(i);
         }
         for(Root root : roots){

@@ -5,7 +5,7 @@ public class Constants {
     public static final int NODE_WIDTH = 50;
     public static final int NODE_HEIGHT = 50;
     public static int NODE_NUMBER = 8;
-    public static final int FRAME_WIDTH = 1000;
+    public static final int FRAME_WIDTH = 1200;
     public static final int FRAME_HEIGHT = 800;
     public static final int BUTTON_PANEL_HEIGHT = 200;
     public static final int PADDING = 100;

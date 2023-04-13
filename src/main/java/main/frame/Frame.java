@@ -11,7 +11,8 @@ import main.util.FileReader;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -36,7 +37,18 @@ public class Frame extends JFrame {
 
     public Frame() {
         super("Test");
-        this.graph = FileReader.readGraphFromJson("input.json");
+        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int r = j.showOpenDialog(null);
+        String path = null;
+
+        while(r == JFileChooser.CANCEL_OPTION){
+            r = j.showOpenDialog(null);
+        }
+            // set the label to the path of the selected file
+         path = j.getSelectedFile().getAbsolutePath();
+
+//        this.graph = FileReader.readGraphFromJson("Veniamin.json");
+        this.graph = FileReader.readGraphFromJson(path);
         this.roots = graph.getRoots();
         graph.getRoots().forEach(node -> System.out.println(node.getStartNode() + " | " + node.getTargetNode() + " | " + node.getLength()));
         buttonPanel = new ButtonPanel(this);

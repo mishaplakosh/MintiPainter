@@ -2,6 +2,7 @@ package main.frame;
 
 import main.constants.Constants;
 import main.dto.Root;
+import main.util.FileReader;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 public class ButtonPanel extends JPanel {
@@ -31,6 +33,8 @@ public class ButtonPanel extends JPanel {
     JPanel textPanel;
 
     JPanel buttonPanel;
+
+    JButton saveToFile;
 
     public ButtonPanel(Frame frame){
         this.frame = frame;
@@ -138,6 +142,15 @@ public class ButtonPanel extends JPanel {
                 frame.calculateButtonPressed();
             }
         });
+        saveToFile = new JButton("Зберегти граф");
+        saveToFile.addActionListener(evt->{
+            try {
+                FileReader.saveGraphToJson(frame.graph);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        buttonPanel.add(saveToFile);
         add(buttonPanel);
     }
 
